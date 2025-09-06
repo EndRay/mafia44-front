@@ -1,0 +1,71 @@
+.show-my-roles-square {
+    width: 20px;
+    transform: scale(1);
+    transition: transform 0.05s ease-in-out;
+}
+
+.show-my-roles-square:hover {
+    transform: scale(1.1);
+}
+
+.game-turn-square {
+    width: 40px;
+    height: 40px;
+    margin: 3px;
+    user-select: none;
+
+    transform: scale(1);
+    filter: none;
+    transition: transform 0.05s ease-in-out, filter 0.2s ease-in-out;
+}
+
+.game-turn-square.hoverable:hover, .game-turn-square.current {
+    filter: contrast(140%);
+    transform: scale(1.1);
+}
+
+.game-turn-square.inactive {
+    filter: grayscale(30%) brightness(50%);
+}
+
+/*.game-turn-square.inactive.hoverable:hover {*/
+/*    filter: grayscale(30%) brightness(50%) contrast(140%);*/
+/*    transform: scale(1.1);*/
+/*}*/
+
+.game-card {
+    width: 100px;
+    margin: 10px;
+    user-select: none;
+    transform: scale(1);
+    transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
+}
+
+.game-card:not(.dimmed):hover {
+    transform: scale(1.1);
+}
+
+.game-card.dimmed {
+    filter: brightness(50%);
+}
+
+.game-card.highlighted {
+    transform: scale(1.05);
+}
+
+.game-card.selected {
+    border: 3px solid lightyellow;
+    border-radius: 15px;
+    width: 106px;
+    margin: 7px;
+    box-shadow: 0 0 10px yellow;
+}
+
+
+.game-card.swapped {
+    border: 3px solid lightcoral;
+    border-radius: 15px;
+    width: 106px;
+    margin: 7px;
+    box-shadow: 0 0 10px coral;
+}
