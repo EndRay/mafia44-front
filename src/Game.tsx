@@ -139,6 +139,11 @@ export default function Game({user, room, returnToLobby}: GameProps) {
   if (selectionRequired) {
     selectableCards = getSelectableCards(playerId, stage, selectedCards,
       stage === GameStage.Copy ? history[0].cards_to_show?.indexOf(GameCharacter.Copy) : undefined);
+    if(stage === GameStage.Shooting){
+      const alreadyShot = history[GameStage.Shooting].cards_shot || []
+      const alreadyShotCardIds = alreadyShot.filter(s => s !== null)
+      selectableCards = selectableCards.filter(s => !alreadyShotCardIds.includes(s))
+    }
     console.log(selectableCards)
   }
 

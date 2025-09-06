@@ -171,7 +171,7 @@ export default function GameTable({
         {showPlayerName(3)}
       </div>
 
-      <div style={{position: "absolute", left: 570, top: 525}}
+      <div style={{position: "absolute", left: 570, top: 535}}
            className={"show-my-roles-square"}
            onMouseEnter={() => setStageToShow(GameStage.Beginning)}
            onMouseLeave={() => setStageToShow(null)}>
