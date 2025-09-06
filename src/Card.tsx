@@ -17,7 +17,7 @@ export default function Card({character, highlighted, selected, dimmed, trySelec
       ${selected ? "selected" : ""}
       ${dimmed ? "dimmed" : ""}
       ${swapped ? "swapped" : ""}`}
-           src={`game/card_${character || "back"}.svg`} alt="Card Back"
+           src={`${process.env.PUBLIC_URL}/game/card_${character || "back"}.svg`} alt="Card Back"
            onDragStart={e => e.preventDefault()}/>
     </div>
   );
