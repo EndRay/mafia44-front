@@ -145,7 +145,7 @@ export default function GameTable({
            onMouseEnter={() => setStageToShow(GameStage.Beginning)}
            onMouseLeave={() => setStageToShow(null)}>
         <img className={"w-100"} style={{filter: "grayscale(100%) brightness(70%) contrast(500%)"}}
-             src={"%PUBLIC_URL%/game/square_copy.svg"} alt="Roles"/>
+             src={"game/square_copy.svg"} alt="Roles"/>
       </div>
 
 

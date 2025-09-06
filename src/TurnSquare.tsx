@@ -18,7 +18,7 @@ export default function TurnSquare({character, isActive, isCurrent, isCopy, onHo
       ${isCurrent ? "current" : ""}`}
          onMouseEnter={onHover} onMouseLeave={onLeave}>
       <img className={"w-100"}
-           src={`%PUBLIC_URL%/game/square_${character}.svg`} alt="Turn Square"
+           src={`game/square_${character}.svg`} alt="Turn Square"
            onDragStart={e => e.preventDefault()}/>
       {
         isCopy ?
