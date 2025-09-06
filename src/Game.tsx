@@ -2,7 +2,7 @@ import {Room, User} from "./App";
 import "./Game.css";
 import GameTable from "./GameTable";
 import {useCallback, useEffect, useState} from "react";
-import {fetchGameStage, fetchHistory, submitAction} from "./gameApi";
+import {fetchGameStage, fetchHistory, shootCard, submitAction} from "./gameApi";
 import {getSelectableCards} from "./gameLogic";
 
 type GameProps = {
@@ -52,6 +52,7 @@ type GameState = {
   swap?: [number, number];
   cards_to_show?: (GameCharacter | null)[];
   players_to_show?: number[];
+  cards_shot?: number[]
 }
 
 export default function Game({user, room, returnToLobby}: GameProps) {
@@ -80,39 +81,37 @@ export default function Game({user, room, returnToLobby}: GameProps) {
   }
 
   let showableStages = []
-  if(stage === GameStage.Finished && history[GameStage.Finished] !== undefined){
+  if (stage === GameStage.Finished && history[GameStage.Finished] !== undefined) {
     const roles = history[0].cards_to_show!;
-    console.log(history)
     let copied_role = null
-    for(const card of history[1].cards_to_show!){
+    for (const card of history[1].cards_to_show!) {
       if (card !== null) {
         if (copied_role === null)
           copied_role = card;
-        else{
+        else {
           copied_role = null;
           break;
         }
       }
     }
     showableStages.push(GameStage.Beginning);
-    for(let role of roles.slice(0, PLAYERS * CARDS_PER_PLAYER)){
-      if(role === GameCharacter.Copy) showableStages.push(GameStage.Copy);
-      if(role === GameCharacter.Thief) showableStages.push(GameStage.Thief);
-      if(role === GameCharacter.Brothers) showableStages.push(GameStage.Brothers);
-      if(role === GameCharacter.Seer) showableStages.push(GameStage.Seer);
-      if(role === GameCharacter.Brawler) showableStages.push(GameStage.Brawler);
-      if(role === GameCharacter.Drunkard) showableStages.push(GameStage.Drunkard);
-      if(role === GameCharacter.Witch) showableStages.push(GameStage.Witch);
-      if(role === GameCharacter.Milkman) showableStages.push(GameStage.Milkman);
+    for (let role of roles.slice(0, PLAYERS * CARDS_PER_PLAYER)) {
+      if (role === GameCharacter.Copy) showableStages.push(GameStage.Copy);
+      if (role === GameCharacter.Thief) showableStages.push(GameStage.Thief);
+      if (role === GameCharacter.Brothers) showableStages.push(GameStage.Brothers);
+      if (role === GameCharacter.Seer) showableStages.push(GameStage.Seer);
+      if (role === GameCharacter.Brawler) showableStages.push(GameStage.Brawler);
+      if (role === GameCharacter.Drunkard) showableStages.push(GameStage.Drunkard);
+      if (role === GameCharacter.Witch) showableStages.push(GameStage.Witch);
+      if (role === GameCharacter.Milkman) showableStages.push(GameStage.Milkman);
     }
-    if(copied_role === GameCharacter.Thief) showableStages.push(GameStage.ThiefCopy);
-    if(copied_role === GameCharacter.Seer) showableStages.push(GameStage.SeerCopy);
-    if(copied_role === GameCharacter.Brawler) showableStages.push(GameStage.BrawlerCopy);
-    if(copied_role === GameCharacter.Drunkard) showableStages.push(GameStage.DrunkardCopy);
-    if(copied_role === GameCharacter.Witch) showableStages.push(GameStage.WitchCopy);
-    if(copied_role === GameCharacter.Milkman) showableStages.push(GameStage.MilkmanCopy);
-  }
-  else {
+    if (copied_role === GameCharacter.Thief) showableStages.push(GameStage.ThiefCopy);
+    if (copied_role === GameCharacter.Seer) showableStages.push(GameStage.SeerCopy);
+    if (copied_role === GameCharacter.Brawler) showableStages.push(GameStage.BrawlerCopy);
+    if (copied_role === GameCharacter.Drunkard) showableStages.push(GameStage.DrunkardCopy);
+    if (copied_role === GameCharacter.Witch) showableStages.push(GameStage.WitchCopy);
+    if (copied_role === GameCharacter.Milkman) showableStages.push(GameStage.MilkmanCopy);
+  } else {
     for (let s in history) {
       const stage_id = parseInt(s)
       if (stage_id >= stage)
@@ -123,16 +122,30 @@ export default function Game({user, room, returnToLobby}: GameProps) {
   }
 
   let smartStageToShow = stageToShow
-    if (stageToShow === null && history[stage] !== undefined && history[stage] !== null)
+  if(stageToShow === null)
+    if (stage === GameStage.Finished || stage === GameStage.Shooting || (history[stage] !== undefined && history[stage] !== null))
       smartStageToShow = stage;
 
-  console.log("HISTORY", history)
+  // console.log("HISTORY", history)
 
-  const selectionRequired = history[stage] === null;
+  let selectionRequired: boolean;
+  if (stage !== GameStage.Shooting) {
+    selectionRequired = history[stage] === null;
+  } else {
+    selectionRequired = history[stage].cards_shot![playerId] === null;
+  }
+
   let selectableCards: number[] = []
   if (selectionRequired) {
     selectableCards = getSelectableCards(playerId, stage, selectedCards,
       stage === GameStage.Copy ? history[0].cards_to_show?.indexOf(GameCharacter.Copy) : undefined);
+    console.log(selectableCards)
+  }
+
+  const shoot = (cardId: number) => {
+    shootCard(room.id, cardId).then(() => {
+      updateGameState()
+    })
   }
 
   const trySelectCard = (cardId: number) => {
@@ -144,20 +157,29 @@ export default function Game({user, room, returnToLobby}: GameProps) {
         return
       newSelectedCards.push(cardId)
     }
+    if (stage === GameStage.Shooting) {
+      shoot(cardId)
+    }
     setSelectedCards(newSelectedCards)
     if (checkReadyForSubmit(newSelectedCards)) {
+      setSelectedCards([])
       submitAction(room.id, newSelectedCards).then(() => {
-        setSelectedCards([])
         updateGameState()
-      }).catch(() => {
-        setSelectedCards([])
       })
     }
   }
 
   const updateGameState = useCallback(() => {
-    fetchGameStage(room.id).then(setStage);
-    fetchHistory(room.id).then(setHistory);
+    fetchGameStage(room.id).then(newStage => {
+      fetchHistory(room.id).then(newHistory => {
+        if (newHistory[GameStage.Finished] !== undefined) {
+          newHistory[GameStage.Finished].cards_shot = newHistory[GameStage.Shooting].cards_shot;
+        }
+
+        setStage(newStage);
+        setHistory(newHistory);
+      })
+    })
   }, [room])
 
   useEffect(() => {
@@ -191,6 +213,7 @@ export default function Game({user, room, returnToLobby}: GameProps) {
         swappedCards={smartStageToShow ? history[smartStageToShow]?.swap : undefined}
         playerNames={room.players.map(u => u.username)}
         playersToShow={smartStageToShow ? history[smartStageToShow]?.players_to_show || [] : []}
+        shotCards={(smartStageToShow && history[smartStageToShow]?.cards_shot) || Array(PLAYERS).fill(null)}
       />
     </div>
   );

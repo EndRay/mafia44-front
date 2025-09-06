@@ -52,17 +52,21 @@ function App() {
         {currentRoom ?
           <Game user={user!} room={currentRoom} returnToLobby={returnToLobby}/>
           :
-          <div style={{
-            display: "grid",
-            width: "100vw",
-            height: "100vh",
-            gridTemplateColumns: "1fr auto",
-            gridTemplateRows: "auto 1fr",
-            gap: 16,
-          }}>
-            <h1 className="align-content-center">Rooms</h1>
-            <LoginForm user={user} setUser={setUser}/>
-            <div className="d-flex justify-content-start flex-wrap">
+          <div
+            className={"d-flex flex-column"}
+            style={{
+              width: "100vw",
+              height: "100vh",
+              gridTemplateColumns: "1fr auto",
+              gridTemplateRows: "auto 1fr",
+              gap: 16,
+            }}
+          >
+            <div className={"d-flex"}>
+              <h1 className="d-flex flex-grow-1 justify-content-center align-items-center">Rooms</h1>
+              <LoginForm user={user} setUser={setUser}/>
+            </div>
+            <div className="d-flex justify-content-start flex-wrap ms-3 overflow-auto">
               <CreateRoomForm updateRooms={updateRooms}/>
               {rooms
                 .filter(room => room.players.length !== 4 ||

@@ -15,6 +15,7 @@ type GameTableProps = {
   swappedCards?: [number, number];
   playerNames: string[];
   playersToShow: number[];
+  shotCards: number[];
 }
 
 export default function GameTable({
@@ -29,7 +30,8 @@ export default function GameTable({
                                     showableStages,
                                     swappedCards,
                                     playerNames,
-                                    playersToShow
+                                    playersToShow,
+                                    shotCards
                                   }: GameTableProps) {
 
   const showIdToId = (id: number) => {
@@ -41,11 +43,14 @@ export default function GameTable({
   const showCard = (showId: number) => {
     const id = showIdToId(showId);
     const isSelected = selectedCards.includes(id) && stageToShow === null
+    const dimUnselectable = stageToShow === null || stageToShow === GameStage.Shooting
     return <Card
       character={cards[id]}
       highlighted={cards[id] != null}
       selected={isSelected}
-      dimmed={selectableCards.length !== 0 && !selectableCards.includes(id) && stageToShow === null && !isSelected}
+      selectable={selectableCards.includes(id)}
+      dimmed={dimUnselectable && selectableCards.length !== 0 && !selectableCards.includes(id) && !isSelected}
+      shotBy={shotCards.includes(id) ? playerNames[shotCards.indexOf(id)] : null}
       trySelect={() => trySelectCard(id)}
       swapped={swappedCards !== undefined && swappedCards.includes(id)}
       key={"card_" + showId}
