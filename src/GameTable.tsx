@@ -67,7 +67,7 @@ export default function GameTable({
     <div className="border border-light rounded-3"
          style={{
            position: "relative", margin: "auto", marginTop: 16,
-           width: 900, height: 600, backgroundColor: "#0b6623"
+           width: 900, height: 600, backgroundColor: "#202b45"
          }}>
 
       <div className={"d-flex align-items-center"}
