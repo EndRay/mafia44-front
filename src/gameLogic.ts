@@ -67,6 +67,7 @@ export function getSelectableCards(playerId: number, stage: GameStage, selectedC
   }
   if (stage === GameStage.Shooting) {
     selectableCards.push(...otherPlayerCards);
+    selectableCards.push(...discardCards);
     console.log(selectableCards)
   }
   // selectableCards = []

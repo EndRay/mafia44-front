@@ -16,6 +16,7 @@ type GameTableProps = {
   playerNames: string[];
   playersToShow: number[];
   shotCards: number[];
+  airShots: boolean[];
 }
 
 export default function GameTable({
@@ -31,7 +32,8 @@ export default function GameTable({
                                     swappedCards,
                                     playerNames,
                                     playersToShow,
-                                    shotCards
+                                    shotCards,
+                                    airShots
                                   }: GameTableProps) {
 
   const showIdToId = (id: number) => {
@@ -75,8 +77,9 @@ export default function GameTable({
 
   const showPlayerName = (showId: number) => {
     const id = (showId + playerId) % PLAYERS;
+    const showPlayer = playersToShow.includes(id) || (stageToShow === GameStage.Shooting && airShots[id]);
     return (
-      <span className={`player-name ${playersToShow.includes(id) ? "shown" : ""}`}>
+      <span className={`player-name ${showPlayer ? "shown" : ""}`}>
         {playerNames[id]}
       </span>
     )

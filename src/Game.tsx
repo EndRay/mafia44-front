@@ -163,7 +163,7 @@ export default function Game({user, room, returnToLobby}: GameProps) {
       newSelectedCards.push(cardId)
     }
     if (stage === GameStage.Shooting) {
-      shoot(cardId)
+      shoot(cardId < PLAYERS * CARDS_PER_PLAYER ? cardId : -1)
     }
     setSelectedCards(newSelectedCards)
     if (checkReadyForSubmit(newSelectedCards)) {
@@ -219,6 +219,7 @@ export default function Game({user, room, returnToLobby}: GameProps) {
         playerNames={room.players.map(u => u.username)}
         playersToShow={smartStageToShow ? history[smartStageToShow]?.players_to_show || [] : []}
         shotCards={(smartStageToShow && history[smartStageToShow]?.cards_shot) || Array(PLAYERS).fill(null)}
+        airShots={(smartStageToShow && history[smartStageToShow]?.cards_shot) ? history[smartStageToShow]?.cards_shot!.map(s => s === -1) : Array(PLAYERS).fill(false)}
       />
     </div>
   );
