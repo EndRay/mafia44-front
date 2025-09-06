@@ -191,7 +191,7 @@ export default function Game({user, room, returnToLobby}: GameProps) {
     updateGameState()
     const interval = setInterval(() => {
       updateGameState()
-    }, 500)
+    }, 2000)
     return () => clearInterval(interval)
   }, [updateGameState]);
 
