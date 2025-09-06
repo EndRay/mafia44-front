@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/mafia44-front/static/css/main.14b829b6.css",
-    "main.js": "/mafia44-front/static/js/main.a4574da5.js",
+    "main.js": "/mafia44-front/static/js/main.4a3dcab3.js",
     "static/js/453.a162a98e.chunk.js": "/mafia44-front/static/js/453.a162a98e.chunk.js",
     "index.html": "/mafia44-front/index.html",
     "main.14b829b6.css.map": "/mafia44-front/static/css/main.14b829b6.css.map",
-    "main.a4574da5.js.map": "/mafia44-front/static/js/main.a4574da5.js.map",
+    "main.4a3dcab3.js.map": "/mafia44-front/static/js/main.4a3dcab3.js.map",
     "453.a162a98e.chunk.js.map": "/mafia44-front/static/js/453.a162a98e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.14b829b6.css",
-    "static/js/main.a4574da5.js"
+    "static/js/main.4a3dcab3.js"
   ]
 }
