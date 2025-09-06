@@ -27,6 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "homepage": "https://endray.github.io/mafia44-front",
   "eslintConfig": {
     "extends": [
       "react-app",
