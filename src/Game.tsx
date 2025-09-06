@@ -3,6 +3,7 @@ import "./Game.css";
 import GameTable from "./GameTable";
 import {useCallback, useEffect, useState} from "react";
 import {fetchGameStage, fetchHistory, submitAction} from "./gameApi";
+import {getSelectableCards} from "./gameLogic";
 
 type GameProps = {
   user: User;
@@ -58,6 +59,8 @@ export default function Game({user, room, returnToLobby}: GameProps) {
   const [history, setHistory] = useState<GameState[]>([])
   const [stageToShow, setStageToShow] = useState<number | null>(null)
   const [selectedCards, setSelectedCards] = useState<number[]>([])
+
+  const playerId = room.players.map(u => u.username).indexOf(user.username);
 
   const checkReadyForSubmit = (selection: number[]) => {
     if ([GameStage.Copy, GameStage.Thief, GameStage.ThiefCopy, GameStage.Drunkard, GameStage.DrunkardCopy].includes(stage)) {
@@ -128,8 +131,8 @@ export default function Game({user, room, returnToLobby}: GameProps) {
   const selectionRequired = history[stage] === null;
   let selectableCards: number[] = []
   if (selectionRequired) {
-    // TODO: determine selectable cards based on game stage
-    selectableCards = Array(PLAYERS * CARDS_PER_PLAYER + CARDS_IN_DISCARD).fill(0).map((_, i) => i)
+    selectableCards = getSelectableCards(playerId, stage, selectedCards,
+      stage === GameStage.Copy ? history[0].cards_to_show?.indexOf(GameCharacter.Copy) : undefined);
   }
 
   const trySelectCard = (cardId: number) => {
@@ -175,7 +178,7 @@ export default function Game({user, room, returnToLobby}: GameProps) {
       </div>
 
       <GameTable
-        playerId={room.players.map(u => u.username).indexOf(user.username)}
+        playerId={playerId}
         cards={(smartStageToShow != null && history[smartStageToShow]?.cards_to_show) ||
           Array(PLAYERS * CARDS_PER_PLAYER + CARDS_IN_DISCARD).fill(null)}
         gameStage={stage}

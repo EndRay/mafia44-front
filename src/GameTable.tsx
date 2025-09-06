@@ -40,11 +40,12 @@ export default function GameTable({
 
   const showCard = (showId: number) => {
     const id = showIdToId(showId);
+    const isSelected = selectedCards.includes(id) && stageToShow === null
     return <Card
       character={cards[id]}
       highlighted={cards[id] != null}
-      selected={selectedCards.includes(id) && stageToShow === null}
-      dimmed={selectableCards.length !== 0 && !selectableCards.includes(id) && stageToShow === null}
+      selected={isSelected}
+      dimmed={selectableCards.length !== 0 && !selectableCards.includes(id) && stageToShow === null && !isSelected}
       trySelect={() => trySelectCard(id)}
       swapped={swappedCards !== undefined && swappedCards.includes(id)}
       key={"card_" + showId}
