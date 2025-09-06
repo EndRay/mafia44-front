@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.14b829b6.css",
-    "main.js": "/static/js/main.faf4ca08.js",
-    "static/js/453.a162a98e.chunk.js": "/static/js/453.a162a98e.chunk.js",
-    "index.html": "/index.html",
-    "main.14b829b6.css.map": "/static/css/main.14b829b6.css.map",
-    "main.faf4ca08.js.map": "/static/js/main.faf4ca08.js.map",
-    "453.a162a98e.chunk.js.map": "/static/js/453.a162a98e.chunk.js.map"
+    "main.css": "/mafia44-front/static/css/main.14b829b6.css",
+    "main.js": "/mafia44-front/static/js/main.edd86ef1.js",
+    "static/js/453.a162a98e.chunk.js": "/mafia44-front/static/js/453.a162a98e.chunk.js",
+    "index.html": "/mafia44-front/index.html",
+    "main.14b829b6.css.map": "/mafia44-front/static/css/main.14b829b6.css.map",
+    "main.edd86ef1.js.map": "/mafia44-front/static/js/main.edd86ef1.js.map",
+    "453.a162a98e.chunk.js.map": "/mafia44-front/static/js/453.a162a98e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.14b829b6.css",
-    "static/js/main.faf4ca08.js"
+    "static/js/main.edd86ef1.js"
   ]
 }
