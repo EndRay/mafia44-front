@@ -1,4 +1,4 @@
-import {ensureCsrf, getCookie} from "./authApi";
+import {fetchCsrfToken} from "./authApi";
 
 export const API_BASE_URL = "https://endray.eu.pythonanywhere.com";
 
@@ -10,13 +10,13 @@ export async function fetchRooms() {
 }
 
 export async function createRoom(room_name: string) {
-  await ensureCsrf();
+  const csrfToken = await fetchCsrfToken();
   const res = await fetch(`${API_BASE_URL}/create_room/`, {
     method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRFToken": getCookie("csrftoken")!,
+      "X-CSRFToken": csrfToken,
     },
     body: JSON.stringify({room_name}),
   });
@@ -26,13 +26,13 @@ export async function createRoom(room_name: string) {
 }
 
 export async function joinRoom(room_id: string) {
-  await ensureCsrf();
+  const csrfToken = await fetchCsrfToken();
   const res = await fetch(`${API_BASE_URL}/join_room/`, {
     method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRFToken": getCookie("csrftoken")!,
+      "X-CSRFToken": csrfToken,
     },
     body: JSON.stringify({room_id}),
   });
@@ -40,13 +40,13 @@ export async function joinRoom(room_id: string) {
 }
 
 export async function leaveRoom(room_id: string) {
-  await ensureCsrf();
+  const csrfToken = await fetchCsrfToken();
   const res = await fetch(`${API_BASE_URL}/leave_room/`, {
     method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRFToken": getCookie("csrftoken")!,
+      "X-CSRFToken": csrfToken,
     },
     body: JSON.stringify({room_id}),
   });
@@ -54,13 +54,13 @@ export async function leaveRoom(room_id: string) {
 }
 
 export async function deleteRoom(room_id: string) {
-  await ensureCsrf();
+  const csrfToken = await fetchCsrfToken();
   const res = await fetch(`${API_BASE_URL}/delete_room/`, {
     method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRFToken": getCookie("csrftoken")!,
+      "X-CSRFToken": csrfToken,
     },
     body: JSON.stringify({room_id}),
   });
@@ -68,13 +68,13 @@ export async function deleteRoom(room_id: string) {
 }
 
 export async function startGame(room_id: string) {
-  await ensureCsrf();
+  const csrfToken = await fetchCsrfToken();
   const res = await fetch(`${API_BASE_URL}/start_game/`, {
     method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRFToken": getCookie("csrftoken")!,
+      "X-CSRFToken": csrfToken,
     },
     body: JSON.stringify({room_id}),
   });

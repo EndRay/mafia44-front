@@ -1,15 +1,15 @@
 import {API_BASE_URL} from "./roomApi";
-import {ensureCsrf, getCookie} from "./authApi";
+import {fetchCsrfToken} from "./authApi";
 
 export async function fetchGameStage(room_id: string) {
   console.log(room_id)
-  await ensureCsrf();
+  const csrfToken = await fetchCsrfToken();
   const res = await fetch(`${API_BASE_URL}/game_stage/`, {
     method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRFToken": getCookie("csrftoken")!,
+      "X-CSRFToken": csrfToken,
     },
     body: JSON.stringify({room_id}),
   });
@@ -19,13 +19,13 @@ export async function fetchGameStage(room_id: string) {
 }
 
 export async function fetchHistory(room_id: string) {
-  await ensureCsrf();
+  const csrfToken = await fetchCsrfToken();
   const res = await fetch(`${API_BASE_URL}/game_history?room_id=${room_id}`, {
     method: "GET",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRFToken": getCookie("csrftoken")!,
+      "X-CSRFToken": csrfToken,
     },
   });
   const data = await res.json();
@@ -34,13 +34,13 @@ export async function fetchHistory(room_id: string) {
 }
 
 export async function submitAction(room_id: string, selected_cards: number[]) {
-  await ensureCsrf();
+  const csrfToken = await fetchCsrfToken();
   const res = await fetch(`${API_BASE_URL}/submit_action/`, {
     method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRFToken": getCookie("csrftoken")!,
+      "X-CSRFToken": csrfToken,
     },
     body: JSON.stringify({room_id, selected_cards}),
   });
