@@ -69,3 +69,11 @@
     margin: 7px;
     box-shadow: 0 0 10px coral;
 }
+
+.player-name {
+    font-weight: bold;
+}
+
+.player-name.shown {
+    color: #008000;
+}

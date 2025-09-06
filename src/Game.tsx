@@ -186,6 +186,8 @@ export default function Game({user, room, returnToLobby}: GameProps) {
         trySelectCard={trySelectCard}
         showableStages={showableStages}
         swappedCards={smartStageToShow ? history[smartStageToShow]?.swap : undefined}
+        playerNames={room.players.map(u => u.username)}
+        playersToShow={smartStageToShow ? history[smartStageToShow]?.players_to_show || [] : []}
       />
     </div>
   );

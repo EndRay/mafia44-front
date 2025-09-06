@@ -13,6 +13,8 @@ type GameTableProps = {
   trySelectCard: (cardId: number) => void;
   showableStages: GameStage[];
   swappedCards?: [number, number];
+  playerNames: string[];
+  playersToShow: number[];
 }
 
 export default function GameTable({
@@ -25,7 +27,9 @@ export default function GameTable({
                                     selectableCards,
                                     trySelectCard,
                                     showableStages,
-                                    swappedCards
+                                    swappedCards,
+                                    playerNames,
+                                    playersToShow
                                   }: GameTableProps) {
 
   const showIdToId = (id: number) => {
@@ -63,6 +67,15 @@ export default function GameTable({
     />
   }
 
+  const showPlayerName = (showId: number) => {
+    const id = (showId + playerId) % PLAYERS;
+    return (
+      <span className={`player-name ${playersToShow.includes(id) ? "shown" : ""}`}>
+        {playerNames[id]}
+      </span>
+    )
+  }
+
   return (
     <div className="border border-light rounded-3"
          style={{
@@ -71,73 +84,85 @@ export default function GameTable({
          }}>
 
       <div className={"d-flex align-items-center"}
-           style={{position: "absolute", left: -64 + 375 - 50, top: 135 + 195}}>
+           style={{position: "absolute", top: 330, left: 261}}>
         <div className={"d-flex flex-column"}>
-          { showTurnSquare(GameStage.Copy, GameCharacter.Copy, false) }
+          {showTurnSquare(GameStage.Copy, GameCharacter.Copy, false)}
         </div>
 
         <div className={"d-flex flex-column"}>
-          { showTurnSquare(GameStage.Thief, GameCharacter.Thief, false) }
-          { showTurnSquare(GameStage.ThiefCopy, GameCharacter.Thief, true) }
+          {showTurnSquare(GameStage.Thief, GameCharacter.Thief, false)}
+          {showTurnSquare(GameStage.ThiefCopy, GameCharacter.Thief, true)}
         </div>
 
         <div className={"d-flex flex-column"}>
-          { showTurnSquare(GameStage.Brothers, GameCharacter.Brothers, false) }
+          {showTurnSquare(GameStage.Brothers, GameCharacter.Brothers, false)}
         </div>
 
         <div className={"d-flex flex-column"}>
-          { showTurnSquare(GameStage.Seer, GameCharacter.Seer, false) }
-          { showTurnSquare(GameStage.SeerCopy, GameCharacter.Seer, true) }
+          {showTurnSquare(GameStage.Seer, GameCharacter.Seer, false)}
+          {showTurnSquare(GameStage.SeerCopy, GameCharacter.Seer, true)}
         </div>
 
         <div className={"d-flex flex-column"}>
-          { showTurnSquare(GameStage.Brawler, GameCharacter.Brawler, false) }
-          { showTurnSquare(GameStage.BrawlerCopy, GameCharacter.Brawler, true) }
+          {showTurnSquare(GameStage.Brawler, GameCharacter.Brawler, false)}
+          {showTurnSquare(GameStage.BrawlerCopy, GameCharacter.Brawler, true)}
         </div>
 
         <div className={"d-flex flex-column"}>
-          { showTurnSquare(GameStage.Drunkard, GameCharacter.Drunkard, false) }
-          { showTurnSquare(GameStage.DrunkardCopy, GameCharacter.Drunkard, true) }
+          {showTurnSquare(GameStage.Drunkard, GameCharacter.Drunkard, false)}
+          {showTurnSquare(GameStage.DrunkardCopy, GameCharacter.Drunkard, true)}
         </div>
 
         <div className={"d-flex flex-column"}>
-          { showTurnSquare(GameStage.Witch, GameCharacter.Witch, false) }
-          { showTurnSquare(GameStage.WitchCopy, GameCharacter.Witch, true) }
+          {showTurnSquare(GameStage.Witch, GameCharacter.Witch, false)}
+          {showTurnSquare(GameStage.WitchCopy, GameCharacter.Witch, true)}
         </div>
 
         <div className={"d-flex flex-column"}>
-          { showTurnSquare(GameStage.Milkman, GameCharacter.Milkman, false) }
-          { showTurnSquare(GameStage.MilkmanCopy, GameCharacter.Milkman, true) }
+          {showTurnSquare(GameStage.Milkman, GameCharacter.Milkman, false)}
+          {showTurnSquare(GameStage.MilkmanCopy, GameCharacter.Milkman, true)}
         </div>
       </div>
 
-      <div className={"d-flex"} style={{position: "absolute", left: -60 + 375 - 50, top: 0 + 225 - 55}}>
+      <div className={"d-flex"} style={{position: "absolute", left: 265, top: 170}}>
         {showCard(8)}
         {showCard(9)}
         {showCard(10)}
       </div>
 
-      <div className={"d-flex"} style={{position: "absolute", left: 0 + 375 - 50, top: 215 + 215}}>
+      <div className={"d-flex"} style={{position: "absolute", left: 325, top: 430}}>
         {showCard(0)}
         {showCard(1)}
       </div>
+      <div style={{position: "absolute", left: 0, top: 540, textAlign: "right", width: 320}}>
+        {showPlayerName(0)}
+      </div>
 
       <div className={"d-flex"}
-           style={{position: "absolute", left: -350 + 375 - 50, top: 0 + 215, transform: "rotate(90deg)"}}>
+           style={{position: "absolute", left: -25, top: 215, transform: "rotate(90deg)"}}>
         {showCard(2)}
         {showCard(3)}
       </div>
-
-      <div className={"d-flex"}
-           style={{position: "absolute", left: 0 + 375 - 50, top: -210 + 215, transform: "rotate(180deg)"}}>
-        {showCard(4)}
-        {showCard(5)}
+      <div style={{position: "absolute", left: 30, top: 135, textAlign: "left"}}>
+        {showPlayerName(1)}
       </div>
 
       <div className={"d-flex"}
-           style={{position: "absolute", left: 350 + 375 - 50, top: 0 + 215, transform: "rotate(-90deg)"}}>
+           style={{position: "absolute", left: 325, top: 5, transform: "rotate(180deg)"}}>
+        {showCard(4)}
+        {showCard(5)}
+      </div>
+      <div style={{position: "absolute", left: 570, top: 20, textAlign: "left"}}>
+        {showPlayerName(2)}
+      </div>
+
+      <div className={"d-flex"}
+           style={{position: "absolute", left: 675, top: 215, transform: "rotate(-90deg)"}}>
         {showCard(6)}
         {showCard(7)}
+      </div>
+      <div style={{position: "absolute", left: 640, top: 415, textAlign: "right", width: 220}}>
+        {showPlayerName(3)}
       </div>
 
       <div style={{position: "absolute", left: 570, top: 525}}
